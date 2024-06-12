@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd">
+
+  <!-- Initialization of the "superhero" table -->
+  <changeSet id="1" author="muhammad.bekette">
+    <createTable tableName="superhero">
+      <column name="alias" type="varchar(255)" remarks="The unique alias of the superhero">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="name" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="origin" type="varchar(255)"/>
+    </createTable>
+  </changeSet>
+
+  <!-- Initialization of the "superhero_powers", "superhero_weapons", "superhero_associations" tables -->
+  <!-- For each element collection, a separate table is created with a foreign key reference to the 'superhero' table -->
+  <changeSet id="2" author="muhammad.bekette">
+    <createTable tableName="superhero_powers">
+      <column name="alias" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="powers" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="superhero_powers"
+      baseColumnNames="alias"
+      constraintName="fk_alias_powers"
+      referencedTableName="superhero"
+      referencedColumnNames="alias"
+      onUpdate="CASCADE"
+      onDelete="CASCADE" />
+
+    <createTable tableName="superhero_weapons">
+      <column name="alias" type="varchar(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="weapons" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="superhero_weapons"
+      baseColumnNames="alias"
+      constraintName="fk_alias_weapons"
+      referencedTableName="superhero"
+      referencedColumnNames="alias"
+      onUpdate="CASCADE"
+      onDelete="CASCADE" />
+
+    <createTable tableName="superhero_associations">
+      <column name="alias" type="varchar(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="associations" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="superhero_associations"
+      baseColumnNames="alias"
+      constraintName="fk_alias_associations"
+      referencedTableName="superhero"
+      referencedColumnNames="alias"
+      onUpdate="CASCADE"
+      onDelete="CASCADE" />
+  </changeSet>
+
+</databaseChangeLog>
